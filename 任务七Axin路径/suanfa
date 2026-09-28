@@ -1,0 +1,74 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#1.生成20*20随机地图，障碍物30%
+def create_map():
+    grid = np.random.choice([1,0], size=(20,20), p=[0.7, 0.3])
+    start = (1, 1)
+    goal = (18, 18)
+    grid[start] = 1
+    grid[goal] = 1
+    return grid, start, goal
+
+#2.启发函数：曼哈顿距离
+def h_manhattan(r1,c1,r2,c2):
+    return abs(r1-r2)+abs(c1-c2)
+
+#3.A*算法
+def a_star(grid, start, goal):
+    rows, cols = grid.shape
+    # open：待探索；close：已经走过
+    open_set = [{"pos":start, "g":0, "h":0, "f":0, "parent":None}]
+    close_set = set()
+    dirs = [(-1,0),(1,0),(0,-1),(0,1)]
+
+    while open_set: 
+        # 选出f最小的点
+        open_set.sort(key=lambda x:x["f"])
+        curr = open_set.pop(0)
+        cr, cc = curr["pos"]
+        close_set.add((cr,cc))
+
+        # 到达终点，回溯路径
+        if (cr,cc) == goal:
+            path = []
+            while curr:
+                path.append(curr["pos"])
+                curr = curr["parent"]
+            return path[::-1]   
+
+        # 遍历4个邻居
+        for dr,dc in dirs:
+            nr, nc = cr+dr, cc+dc
+            if 0<=nr<rows and 0<=nc<cols and grid[nr,nc]==1 and (nr,nc) not in close_set:
+                g = curr["g"] + 1
+                h = h_manhattan(nr, nc, goal[0], goal[1])
+                f = g + h
+                # 不在open才加入
+                if not any( x["pos"]==(nr,nc) for x in open_set ):
+                    open_set.append({"pos":(nr,nc),"g":g,"h":h,"f":f,"parent":curr})
+    return None # 无路可走
+
+#4.绘图可视化
+def show(grid, path, s, g):
+    plt.figure(figsize=(7,7))
+    plt.imshow(grid, cmap="gray")
+    if path:
+        r = [p[0] for p in path]
+        c = [p[1] for p in path]
+        plt.plot(c, r, c="red", lw=3)
+    plt.scatter(s[1],s[0],c="lime",s=120) #起点绿色
+    plt.scatter(g[1],g[0],c="blue",s=220) #终点蓝色
+    plt.grid(alpha=0.25)
+    plt.title("A*")
+    plt.show()
+
+#主程序运行
+if __name__ == "__main__":
+    map_grid, start_pt, goal_pt = create_map()
+    res_path = a_star(map_grid, start_pt, goal_pt)
+    if res_path:
+        print(f"找到路径，长度={len(res_path)}")
+    else:
+        print("路径被障碍物堵死，重新运行！")
+    show(map_grid, res_path, start_pt, goal_pt)

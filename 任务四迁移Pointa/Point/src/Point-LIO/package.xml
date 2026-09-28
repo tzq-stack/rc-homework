@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>point_lio</name>
+  <version>0.0.0</version>
+
+  <description>
+    This is a modified version of LOAM which is original algorithm
+    is described in the following paper:
+    J. Zhang and S. Singh. LOAM: Lidar Odometry and Mapping in Real‑time.
+      Robotics: Science and Systems Conference (RSS). Berkeley, CA, July 2014.
+  </description>
+
+  <maintainer email="dev@livoxtech.com">claydergc</maintainer>
+  <license>BSD</license>
+  <author email="hdj65822@connect.hku.hk">Dongjiao He</author>
+
+  <!-- ROS2 编译工具依赖，catkin删掉，用ament_cmake -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- ROS2统一用depend，不分build_depend/run_depend -->
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>pcl_ros</depend>
+  <depend>tf2_ros</depend>
+  <depend>builtin_interfaces</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
+

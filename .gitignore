@@ -1,0 +1,39 @@
+# ===== 编译产物（ROS / CMake / Catkin）=====
+build/
+install/
+log/
+devel/
+*.o
+*.so
+*.a
+__pycache__/
+*.pyc
+.catkin_tools/
+*.cache
+
+# ===== 嵌套的第三方仓库 .git 历史 =====
+**/.git/
+
+# ===== 运行结果展示（大视频/图片，纯输出）=====
+**/运行结果展示/
+
+# ===== 视频文件 =====
+*.mp4
+*.avi
+*.mov
+*.wmv
+
+# ===== 模型权重（大二进制，训练可重新生成）=====
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# ===== 训练/推理运行产物 =====
+**/runs/
+
+# ===== IDE / 系统文件 =====
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
